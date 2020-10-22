@@ -1,0 +1,22 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'Biaobei' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for Biaobei
+pod 'JSONModel', '1.8.0'
+pod 'IGListKit', '3.4.0'
+pod 'MJRefresh', '3.2.0'
+pod 'Masonry' , '1.1.0'
+pod 'AFNetworking', '3.2.1'
+pod 'MLLabel', '1.10.5'
+pod 'SDWebImage'
+pod 'SDCycleScrollView'
+pod 'SVProgressHUD'
+pod 'AliyunOSSiOS'
+pod 'FMDB'
+pod 'Bugly'
+
+end

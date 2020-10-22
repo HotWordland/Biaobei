@@ -1,0 +1,6 @@
+framework module Pods_Biaobei {
+  umbrella header "Pods-Biaobei-umbrella.h"
+
+  export *
+  module * { export * }
+}

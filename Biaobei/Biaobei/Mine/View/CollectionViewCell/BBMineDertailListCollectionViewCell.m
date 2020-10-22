@@ -1,0 +1,87 @@
+//
+//  BBMineDertailListCollectionViewCell.m
+//  WLBaseProject
+//
+//  Created by 文亮 on 2019/9/5.
+//  Copyright © 2019 文亮. All rights reserved.
+//
+
+#import "BBMineDertailListCollectionViewCell.h"
+#import "BBMineDetailView.h"
+#import "BBMineDetailListBeanModel.h"
+
+@interface BBMineDertailListCollectionViewCell ()
+@property (nonatomic, strong) UIView * underView;
+@end
+
+@implementation BBMineDertailListCollectionViewCell
+
+-(void)prepareUI {
+    self.underView = [UIView new];
+    self.underView.backgroundColor = [UIColor whiteColor];
+    self.underView.layer.masksToBounds = YES;
+    self.underView.layer.cornerRadius = 8;
+    self.underView.layer.shadowColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.04].CGColor;
+    self.underView.layer.shadowOffset = CGSizeMake(0,0);
+    self.underView.layer.shadowOpacity = 1;
+    self.underView.layer.shadowRadius = 8;
+    [self.contentView addSubview:self.underView];
+}
+
+-(void)layoutUI {
+    [self.underView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(12);
+        make.right.mas_equalTo(-12);
+        make.top.mas_equalTo(6);
+        make.bottom.mas_equalTo(-6);
+    }];
+}
+
+-(void)updateUI {
+    for (UIView * view in self.underView.subviews) {
+        [view removeFromSuperview];
+    }
+    BBMineDetailListBeanModel * beanModel = (BBMineDetailListBeanModel *)self.beanModel;
+    BBMineDetailView * detailview = nil;
+    for (int i =0; i< beanModel.detailArray.count; i++) {
+        BBMineDetailView * view = [[BBMineDetailView alloc]init];
+        view.userInteractionEnabled = YES;
+        view.tag = 100 + i;
+        BBMineDetailBeanModel *detailBeanModel = beanModel.detailArray[i];
+        view.model = detailBeanModel;
+        [_underView addSubview:view];
+        if (detailview) {
+            [view mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.mas_equalTo(0);
+                make.top.equalTo(detailview.mas_bottom);
+                make.height.equalTo(detailview.mas_height);
+            }];
+        } else {
+            [view mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.top.mas_equalTo(0);
+                make.height.mas_equalTo(66);
+            }];
+        }
+        detailview = view;
+        
+        
+        if (detailBeanModel.noTap) {//不要手势，直接走代理
+            
+        } else {
+            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapCellWtihModel:)];
+            [detailview addGestureRecognizer:tap];
+        }
+        
+    }
+}
+
+-(void)tapCellWtihModel:(UITapGestureRecognizer *)tap {
+    NSInteger index = tap.view.tag - 100;
+    BBMineDetailListBeanModel * beanModel = (BBMineDetailListBeanModel *)self.beanModel;
+    BBMineDetailBeanModel * model = beanModel.detailArray[index];
+    if (self.tapView) {
+        self.tapView(model);
+    }
+}
+
+@end
